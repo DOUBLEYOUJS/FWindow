@@ -17,5 +17,5 @@ Add it in your root build.gradle at the end of repositories:
 Step 2. Add the dependency
 
 	dependencies {
-	        implementation 'com.github.DOUBLEYOUJS:FloatingWindowTest:1.0'
+	        implementation 'com.github.DOUBLEYOUJS:FWindow:1.1'
 	}

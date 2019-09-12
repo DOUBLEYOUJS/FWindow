@@ -1,2 +1,2 @@
 include ':app', ':libfwindow'
-rootProject.name='FloatingWindowTest'
+rootProject.name='FWindow'

@@ -49,6 +49,17 @@ class FloatingWindow {
         mService.addView(view, x, y)
     }
 
+    fun isOpenView(): Boolean {
+        return mService.isOpen
+    }
+
+    /**
+     * 设置是否拖动，默认拖动
+     */
+    fun setCanMove(isCanMove: Boolean) {
+        mService.isCanMove = isCanMove
+    }
+
     /**
      * 添加view
      */
@@ -92,7 +103,14 @@ class FloatingWindow {
      * 关闭Window
      */
     fun closeWindow() {
-        mService.stopService()
+        mService.closeWindow()
+    }
+
+    /**
+     * 销毁
+     */
+    fun destory() {
+        mService.closeWindow()
         mContext?.unbindService(mServiceConnectin)
     }
 }

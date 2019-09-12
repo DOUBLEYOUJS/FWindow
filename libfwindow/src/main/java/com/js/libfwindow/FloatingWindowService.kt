@@ -9,10 +9,7 @@ import android.os.Build
 import android.os.IBinder
 import android.util.DisplayMetrics
 import android.util.Log
-import android.view.Gravity
-import android.view.MotionEvent
-import android.view.View
-import android.view.WindowManager
+import android.view.*
 
 /**
  * Author: double.
@@ -27,6 +24,8 @@ class FloatingWindowService : Service() {
     private var mScreenWidth = 0
     private var mScreenHeight = 0
     private lateinit var mView: View
+    var isOpen = false
+    var isCanMove = true
     override fun onBind(intent: Intent?): IBinder? {
         return MyBinder()
     }
@@ -67,29 +66,34 @@ class FloatingWindowService : Service() {
     internal fun addView(view: View, x: Int, y: Int) {
         mView = view
         view.setOnTouchListener { v, event ->
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    mTouchX = event.x
-                    mTouchY = event.y
-                }
-                MotionEvent.ACTION_MOVE -> {
-                    updateView((event.rawX - mTouchX).toInt(), (event.rawY - mTouchY).toInt())
+            if (isCanMove) {
+                when (event.action) {
+                    MotionEvent.ACTION_DOWN -> {
+                        mTouchX = event.x
+                        mTouchY = event.y
+                    }
+                    MotionEvent.ACTION_MOVE -> {
+                        updateView((event.rawX - mTouchX).toInt(), (event.rawY - mTouchY).toInt())
+                    }
                 }
             }
             false
         }
 
-
+        isOpen = true
+        if (view.measuredHeight == 0 && view.measuredWidth == 0) {
+            view.measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        }
         //默认左下角
-        mParams.width = view.width
-        mParams.height = view.height
+        mParams.width = view.measuredWidth
+        mParams.height = view.measuredHeight
         mParams.y = y
         mParams.x = x
         Log.e("js", "mParams:${mParams.toString()} ${mParams.width}")
         mWindowManager.addView(view, mParams)
     }
 
-    fun getParams():WindowManager.LayoutParams{
+    fun getParams(): WindowManager.LayoutParams {
         return mParams
     }
 
@@ -109,7 +113,9 @@ class FloatingWindowService : Service() {
         mWindowManager.updateViewLayout(mView, mParams)
     }
 
-    internal fun stopService() {
+    internal fun closeWindow() {
+        isOpen = false
+        mView ?: return
         mWindowManager.removeView(mView)
     }
 
