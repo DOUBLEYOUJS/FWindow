@@ -1,4 +1,4 @@
-# FloatingWindowTest [![](https://jitpack.io/v/DOUBLEYOUJS/FloatingWindowTest.svg)](https://jitpack.io/#DOUBLEYOUJS/FloatingWindowTest)
+# FWindow [![](https://jitpack.io/v/DOUBLEYOUJS/FWindow.svg)](https://jitpack.io/#DOUBLEYOUJS/FWindow)
 悬浮窗创建包，简化悬浮窗创建流程
 
 Usage
@@ -17,5 +17,5 @@ Add it in your root build.gradle at the end of repositories:
 Step 2. Add the dependency
 
 	dependencies {
-	        implementation 'com.github.DOUBLEYOUJS:FWindow:1.1'
+	        implementation 'com.github.DOUBLEYOUJS:FWindow:1.2'
 	}

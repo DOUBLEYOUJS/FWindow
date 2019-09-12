@@ -89,11 +89,10 @@ class FloatingWindowService : Service() {
         mParams.height = view.measuredHeight
         mParams.y = y
         mParams.x = x
-        Log.e("js", "mParams:${mParams.toString()} ${mParams.width}")
         mWindowManager.addView(view, mParams)
     }
 
-    fun getParams(): WindowManager.LayoutParams {
+    internal fun getParams(): WindowManager.LayoutParams {
         return mParams
     }
 
@@ -114,9 +113,11 @@ class FloatingWindowService : Service() {
     }
 
     internal fun closeWindow() {
-        isOpen = false
-        mView ?: return
-        mWindowManager.removeView(mView)
+        if (isOpen) {
+            isOpen = false
+            mView ?: return
+            mWindowManager.removeView(mView)
+        }
     }
 
     inner class MyBinder : Binder() {
